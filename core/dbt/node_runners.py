@@ -546,12 +546,12 @@ class TestRunner(CompileRunner):
             fetch=True)
 
         num_rows = len(table.rows)
-        if num_rows > 1:
+        if num_rows != 1:
             num_cols = len(table.columns)
             raise RuntimeError(
-                "Bad test {name}: Returned {rows} rows and {cols} cols"
+                "Bad test {name}: Returned {rows} rows and {cols} cols "
+                "but expected 1 row and 1 column"
                 .format(name=test.name, rows=num_rows, cols=num_cols))
-
         return table[0][0]
 
     def before_execute(self):
