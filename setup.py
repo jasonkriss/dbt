@@ -30,7 +30,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'dbt-core=={}'.format(package_version),
-        'dbt-postgres=={}'.format(package_version),
+        'git+https://github.com/jasonkriss/dbt.git@big-query-delegation',
         'dbt-redshift=={}'.format(package_version),
         'dbt-snowflake=={}'.format(package_version),
         'dbt-bigquery=={}'.format(package_version),
