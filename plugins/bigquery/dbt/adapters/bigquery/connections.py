@@ -25,6 +25,9 @@ BIGQUERY_CREDENTIALS_CONTRACT = {
         'schema': {
             'type': 'string',
         },
+        'subject': {
+            'type': 'string',
+        },
         'keyfile': {
             'type': 'string',
         },
@@ -122,6 +125,7 @@ class BigQueryConnectionManager(BaseConnectionManager):
     @classmethod
     def get_bigquery_credentials(cls, profile_credentials):
         method = profile_credentials.method
+        subject = profile_credentials.get('subject', None)
         creds = google.oauth2.service_account.Credentials
 
         if method == 'oauth':
@@ -130,11 +134,11 @@ class BigQueryConnectionManager(BaseConnectionManager):
 
         elif method == 'service-account':
             keyfile = profile_credentials.keyfile
-            return creds.from_service_account_file(keyfile, scopes=cls.SCOPE)
+            return creds.from_service_account_file(keyfile, scopes=cls.SCOPE, subject=subject)
 
         elif method == 'service-account-json':
             details = profile_credentials.keyfile_json
-            return creds.from_service_account_info(details, scopes=cls.SCOPE)
+            return creds.from_service_account_info(details, scopes=cls.SCOPE, subject=subject)
 
         error = ('Invalid `method` in profile: "{}"'.format(method))
         raise dbt.exceptions.FailedToConnectException(error)
