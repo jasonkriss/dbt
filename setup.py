@@ -33,6 +33,6 @@ setup(
         'dbt-postgres=={}'.format(package_version),
         'dbt-redshift=={}'.format(package_version),
         'dbt-snowflake=={}'.format(package_version),
-        'dbt-bigquery @ git+https://github.com/jasonkriss/dbt.git@big-query-delegation',
+        'dbt-bigquery @ git+https://github.com/jasonkriss/dbt.git@big-query-delegation#subdirectory=plugins/bigquery',
     ]
 )
