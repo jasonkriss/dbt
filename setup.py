@@ -40,7 +40,7 @@ setup(
         'dbt-postgres=={}'.format(package_version),
         'dbt-redshift=={}'.format(package_version),
         'dbt-snowflake=={}'.format(package_version),
-        'dbt-bigquery=={}'.format(package_version),
+        'dbt-bigquery @ git+https://github.com/jasonkriss/dbt.git@big-query-delegation-0.17.1#subdirectory=plugins/bigquery'
     ],
     zip_safe=False,
     classifiers=[

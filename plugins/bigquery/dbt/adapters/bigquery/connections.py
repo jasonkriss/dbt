@@ -37,6 +37,7 @@ class BigQueryConnectionMethod(StrEnum):
 @dataclass
 class BigQueryCredentials(Credentials):
     method: BigQueryConnectionMethod
+    subject: Optional[str] = None
     keyfile: Optional[str] = None
     keyfile_json: Optional[Dict[str, Any]] = None
     timeout_seconds: Optional[int] = 300
@@ -124,6 +125,7 @@ class BigQueryConnectionManager(BaseConnectionManager):
     @classmethod
     def get_bigquery_credentials(cls, profile_credentials):
         method = profile_credentials.method
+        subject = profile_credentials.get('subject', None)
         creds = service_account.Credentials
 
         if method == BigQueryConnectionMethod.OAUTH:
@@ -132,11 +134,11 @@ class BigQueryConnectionManager(BaseConnectionManager):
 
         elif method == BigQueryConnectionMethod.SERVICE_ACCOUNT:
             keyfile = profile_credentials.keyfile
-            return creds.from_service_account_file(keyfile, scopes=cls.SCOPE)
+            return creds.from_service_account_file(keyfile, scopes=cls.SCOPE, subject=subject))
 
         elif method == BigQueryConnectionMethod.SERVICE_ACCOUNT_JSON:
             details = profile_credentials.keyfile_json
-            return creds.from_service_account_info(details, scopes=cls.SCOPE)
+            return creds.from_service_account_info(details, scopes=cls.SCOPE, subject=subject)
 
         error = ('Invalid `method` in profile: "{}"'.format(method))
         raise FailedToConnectException(error)
