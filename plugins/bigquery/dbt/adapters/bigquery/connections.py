@@ -125,7 +125,7 @@ class BigQueryConnectionManager(BaseConnectionManager):
     @classmethod
     def get_bigquery_credentials(cls, profile_credentials):
         method = profile_credentials.method
-        subject = profile_credentials.get('subject', None)
+        subject = profile_credentials.subject
         creds = service_account.Credentials
 
         if method == BigQueryConnectionMethod.OAUTH:
